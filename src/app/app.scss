@@ -1,0 +1,12 @@
+.layout {
+  display: flex;
+}
+
+app-menu {
+  width: 200px;
+}
+
+.content {
+  flex: 1;
+  padding: 1rem;
+}

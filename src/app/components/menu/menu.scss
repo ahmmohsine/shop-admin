@@ -1,0 +1,14 @@
+nav {
+  display: flex;
+  flex-direction: column;   // les liens les uns sous les autres
+  gap: 0.5rem;              // espace entre les liens
+
+  a {
+    text-decoration: none;  // enlève le soulignement
+    color: inherit;         // garde la couleur du texte normal
+
+    &.active {
+      font-weight: bold;    // la page en cours est en gras
+    }
+  }
+}

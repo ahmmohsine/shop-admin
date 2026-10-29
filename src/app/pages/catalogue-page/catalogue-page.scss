@@ -1,0 +1,30 @@
+.out-of-stock {
+  opacity: 0.5;   // le produit apparaît grisé
+}
+button:hover {
+  border: 1px solid #0099cc;
+  background-color: #00aacc;
+  color: #ffffff;
+  padding: 5px 10px;
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+div {
+  padding: 5px 10px;
+}
+img{
+  height: 60px;
+}
+.low-stock{
+  color: red;
+  border: 2px solid orange;
+}
+.image-placeholder{
+  height: 60px;
+}
