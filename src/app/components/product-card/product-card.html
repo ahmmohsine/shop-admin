@@ -1,0 +1,37 @@
+<div
+      class="product-card"
+      [appLowStock]="product().stock"
+      [class.out-of-stock]="product().stock === 0"
+    >
+      <!-- L'image, chargée seulement quand la carte devient visible -->
+      @defer (on viewport) {
+        <img [src]="product().imageUrl" [alt]="product().name" />
+      } @placeholder {
+        <div class="image-placeholder"></div>
+      }
+
+      <span class="category-icon">
+        @switch (product().category) {
+          @case ('Informatique') { 💻 }
+          @case ('Audio') { 🎧 }
+          @case ('Photo') { 📷 }
+          @case ('Téléphonie') { 📱 }
+          @case ('Accessoires'){⌚}
+          @default { 📦 }
+        }
+      </span>
+
+      <h2>{{ product().name | titlecase }}</h2>
+      <p class="category">{{ product().category }}</p>
+      <p class="price">{{ product().price | currency: 'EUR' }}</p>
+      <p class="stock">{{ product().stock | stockLabel }}</p>
+      @if(product().stock >0)
+    {<app-quantity-picker [maxValue]="product().stock" [(value)]="selectedQuantity"/>}
+      <button
+        class="add-to-cart"
+        [disabled]="product().stock === 0"
+        (click)="addProductToCart()"
+      >
+        Ajouter au panier
+      </button>
+    </div>

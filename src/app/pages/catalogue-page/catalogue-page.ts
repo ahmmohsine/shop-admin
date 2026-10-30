@@ -1,19 +1,22 @@
 import { Component, signal } from '@angular/core';
 import { Product } from '../../models/product';
-import { CurrencyPipe } from '@angular/common';
-import { TitleCasePipe } from '@angular/common';
-import { StockLabelPipe } from '../../pipes/stock-label-pipe';
-import { Highlight } from '../../directives/highlight';
-import { LowStock } from '../../directives/low-stock';
+import { ProductCard } from '../../components/product-card/product-card';
+import { Panel } from '../../components/panel/panel';
 
 @Component({
-  imports: [CurrencyPipe,TitleCasePipe,StockLabelPipe,Highlight,LowStock],
+  imports: [ProductCard, Panel],
   selector: 'app-catalogue-page',
   styleUrl: './catalogue-page.scss',
   templateUrl: './catalogue-page.html',
 })
 export class CataloguePage {
-  PRODUCTS: readonly Product[] = [
+onAddToCart(productToAddOnCart: { product: Product; quantity: number; }) {
+  this.count.update(c=>c+productToAddOnCart.quantity);
+  productToAddOnCart.product.stock-= productToAddOnCart.quantity;
+}
+
+    count = signal(0);
+    PRODUCTS:  Product[] = [
   {
     id: 1, name: 'Clavier mécanique', price: 89.99, stock: 2, category: 'Informatique',
     imageUrl: 'https://images.unsplash.com/photo-1756387462457-9afa97d2dbe8?w=600&h=600&fit=crop&fm=jpg&q=80',
@@ -83,9 +86,23 @@ export class CataloguePage {
   imageUrl: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&h=600&fit=crop&fm=jpg&q=80',
 },
 ];
+filteredProducts = signal(this.PRODUCTS);
+selectedCategory = signal("Toutes");
+  selectCategory(categoryName: string) {
+    this.selectedCategory.set(categoryName);
+    if(categoryName ==="Toutes")
+      this.filteredProducts.set(this.PRODUCTS);
+    else
+    this.filteredProducts.set(this.PRODUCTS.filter(p=>p.category===categoryName));
+}
  
-  count = signal(0);
-  countClick() {
-    this.count.update((c) => c + 1);
-  }
+categories: string[] = [
+  'Informatique',
+  'Audio',
+  'Photo',
+  'Téléphonie',
+  'Accessoires'
+];
+
+  
 }

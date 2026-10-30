@@ -1,20 +1,31 @@
-@for (product of PRODUCTS; track $index) {
-<div class="product-card" [class.out-of-stock]="product.stock === 0" 
-[appLowStock]="product.stock">
-  
-  @defer (on viewport) {
-    <img [src]="product.imageUrl" [alt]="product.name" />
-  }@placeholder {
-  <div class="image-placeholder"></div>
-}
-  <h2>{{ product.name | titlecase}}</h2>
-  <p>{{ product.category }}</p>
-  <p>{{ product.price | currency: 'EUR' }}</p>
-  <p >{{ product.stock | stockLabel }}</p>
-  <div>
-    <button [disabled]="product.stock === 0" (click)="countClick()">
-      Ajouter au panier ({{ count() }})
+<!-- Le compteur du panier -->
+<p class="cart-count">Articles dans le panier : {{ count() }}</p>
+
+<app-panel>
+  <h2 panel-title>Filtres</h2>
+  <div class="filters">
+    <button
+      [class.active]="selectedCategory() === 'Toutes'"
+      (click)="selectCategory('Toutes')"
+    >
+      Toutes
     </button>
+
+    @for (category of categories; track category) {
+      <button
+        [class.active]="selectedCategory() === category"
+        (click)="selectCategory(category)"
+      >
+        {{ category }}
+      </button>
+    }
   </div>
-  
-</div>}
+</app-panel>
+<div class="product-grid">
+<!-- La grille de produits -->
+  @for (product of filteredProducts(); track product.id) {
+    <app-product-card [product]="product" (addToCart)="onAddToCart($event)"/>
+  } @empty {
+    <p class="empty">Aucun produit dans cette catégorie.</p>
+  }
+</div>

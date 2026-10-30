@@ -1,0 +1,3 @@
+<button (click)="decrement()" [disabled]="value()===1" >−</button>
+<span>{{ value() }}</span>
+<button (click)="increment()" [disabled]="maxValue()===value()" >+</button>

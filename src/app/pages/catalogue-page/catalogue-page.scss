@@ -1,30 +1,47 @@
-.out-of-stock {
-  opacity: 0.5;   // le produit apparaît grisé
-}
-button:hover {
-  border: 1px solid #0099cc;
-  background-color: #00aacc;
-  color: #ffffff;
-  padding: 5px 10px;
+// ---------- Les boutons de filtre ----------
+.filters {
+  display: flex;
+  flex-wrap: wrap;                 // passe à la ligne s'il n'y a plus de place
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+
+  button {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;          // une très grande valeur donne des bords tout ronds
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    cursor: pointer;               // la main au survol
+
+    &:hover {
+      border-color: var(--color-primary);
+    }
+
+    &.active {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+      color: white;
+    }
+  }
 }
 
-button:disabled,
-button[disabled]{
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
+// ---------- La grille de cartes ----------
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-div {
-  padding: 5px 10px;
+
+// ---------- Le message quand aucun produit ne correspond ----------
+.empty {
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-muted);
 }
-img{
-  height: 60px;
-}
-.low-stock{
-  color: red;
-  border: 2px solid orange;
-}
-.image-placeholder{
-  height: 60px;
+.cart-count {
+  margin: 0 0 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
 }

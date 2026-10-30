@@ -1,12 +1,14 @@
 .layout {
   display: flex;
+  min-height: calc(100vh - 64px);  // toute la hauteur de l'écran, moins le header
 }
 
 app-menu {
-  width: 200px;
+  width: 220px;
+  flex-shrink: 0;                  // le menu garde sa largeur, même sur petit écran
 }
 
 .content {
   flex: 1;
-  padding: 1rem;
+  padding: 1.5rem;
 }

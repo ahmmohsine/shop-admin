@@ -1,2 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
-body { margin: 0; } 
+
+:root {
+  --color-primary: #4f46e5;       // violet : boutons, liens actifs
+  --color-primary-dark: #4338ca;  // violet foncé : survol des boutons
+  --color-bg: #f5f6fa;            // fond gris très clair de la page
+  --color-surface: #ffffff;       // fond blanc des cartes
+  --color-text: #1f2937;          // texte principal
+  --color-muted: #6b7280;         // texte secondaire (catégorie...)
+  --color-border: #e5e7eb;        // bordures discrètes
+  --color-warning: #f59e0b;       // orange : stock faible
+  --color-danger: #dc2626;        // rouge : rupture
+  --radius: 8px;                  // arrondi des coins
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+// La taille d'un élément inclut sa bordure et son padding (plus simple à calculer)
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
