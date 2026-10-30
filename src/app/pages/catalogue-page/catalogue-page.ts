@@ -1,19 +1,17 @@
 import { Component, signal } from '@angular/core';
 import { Product } from '../../models/product';
-import { CurrencyPipe } from '@angular/common';
-import { TitleCasePipe } from '@angular/common';
-import { StockLabelPipe } from '../../pipes/stock-label-pipe';
-import { LowStock } from '../../directives/low-stock';
+import { ProductCard } from '../../components/product-card/product-card';
 
 @Component({
-  imports: [CurrencyPipe,TitleCasePipe,StockLabelPipe,LowStock],
+  imports: [ProductCard],
   selector: 'app-catalogue-page',
   styleUrl: './catalogue-page.scss',
   templateUrl: './catalogue-page.html',
 })
 export class CataloguePage {
+
     count = signal(0);
-     PRODUCTS:  Product[] = [
+    PRODUCTS:  Product[] = [
   {
     id: 1, name: 'Clavier mécanique', price: 89.99, stock: 2, category: 'Informatique',
     imageUrl: 'https://images.unsplash.com/photo-1756387462457-9afa97d2dbe8?w=600&h=600&fit=crop&fm=jpg&q=80',
@@ -100,9 +98,9 @@ categories: string[] = [
   'Téléphonie',
   'Accessoires'
 ];
-  countClick(product:Product) {
-    this.count.update((c) => c + 1);
-    product.stock--;
-  }
-  
+
+  onAddToCart(product: Product) {
+  this.count.update(c=>c+1);
+  product.stock--;
+}
 }
