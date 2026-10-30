@@ -3,17 +3,17 @@ import { Product } from '../../models/product';
 import { CurrencyPipe } from '@angular/common';
 import { TitleCasePipe } from '@angular/common';
 import { StockLabelPipe } from '../../pipes/stock-label-pipe';
-import { Highlight } from '../../directives/highlight';
 import { LowStock } from '../../directives/low-stock';
 
 @Component({
-  imports: [CurrencyPipe,TitleCasePipe,StockLabelPipe,Highlight,LowStock],
+  imports: [CurrencyPipe,TitleCasePipe,StockLabelPipe,LowStock],
   selector: 'app-catalogue-page',
   styleUrl: './catalogue-page.scss',
   templateUrl: './catalogue-page.html',
 })
 export class CataloguePage {
-  PRODUCTS: readonly Product[] = [
+    count = signal(0);
+     PRODUCTS:  Product[] = [
   {
     id: 1, name: 'Clavier mécanique', price: 89.99, stock: 2, category: 'Informatique',
     imageUrl: 'https://images.unsplash.com/photo-1756387462457-9afa97d2dbe8?w=600&h=600&fit=crop&fm=jpg&q=80',
@@ -83,9 +83,26 @@ export class CataloguePage {
   imageUrl: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&h=600&fit=crop&fm=jpg&q=80',
 },
 ];
+filteredProducts = signal(this.PRODUCTS);
+selectedCategory = signal("Toutes");
+  selectCategory(categoryName: string) {
+    this.selectedCategory.set(categoryName);
+    if(categoryName ==="Toutes")
+      this.filteredProducts.set(this.PRODUCTS);
+    else
+    this.filteredProducts.set(this.PRODUCTS.filter(p=>p.category===categoryName));
+}
  
-  count = signal(0);
-  countClick() {
+categories: string[] = [
+  'Informatique',
+  'Audio',
+  'Photo',
+  'Téléphonie',
+  'Accessoires'
+];
+  countClick(product:Product) {
     this.count.update((c) => c + 1);
+    product.stock--;
   }
+  
 }
