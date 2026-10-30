@@ -4,6 +4,7 @@ import { LowStock } from '../../directives/low-stock';
 import { TitleCasePipe,CurrencyPipe } from '@angular/common';
 import { StockLabelPipe } from '../../pipes/stock-label-pipe';
 import { QuantityPicker } from '../quantity-picker/quantity-picker';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   imports: [LowStock, TitleCasePipe, CurrencyPipe, StockLabelPipe, QuantityPicker],
@@ -14,11 +15,12 @@ import { QuantityPicker } from '../quantity-picker/quantity-picker';
 export class ProductCard {
   product = input.required<Product>();
  addToCart = output<{ product: Product; quantity: number }>();
-  selectedQuantity= signal(0);
+  selectedQuantity= signal(1);
   addProductToCart() {
     this.addToCart.emit({
   product: this.product(),
   quantity: this.selectedQuantity(),
 });
+this.selectedQuantity.set(1);
   }
 }

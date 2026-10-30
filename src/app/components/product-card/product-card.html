@@ -25,7 +25,8 @@
       <p class="category">{{ product().category }}</p>
       <p class="price">{{ product().price | currency: 'EUR' }}</p>
       <p class="stock">{{ product().stock | stockLabel }}</p>
-    <app-quantity-picker [maxValue]="product().stock" [(value)]="selectedQuantity"></app-quantity-picker>
+      @if(product().stock >0)
+    {<app-quantity-picker [maxValue]="product().stock" [(value)]="selectedQuantity"/>}
       <button
         class="add-to-cart"
         [disabled]="product().stock === 0"
