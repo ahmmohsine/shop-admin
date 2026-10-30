@@ -1,25 +1,26 @@
 <!-- Le compteur du panier -->
 <p class="cart-count">Articles dans le panier : {{ count() }}</p>
 
-<!-- Les boutons de filtre -->
-<div class="filters">
-  <button
-    [class.active]="selectedCategory() === 'Toutes'"
-    (click)="selectCategory('Toutes')"
-  >
-    Toutes
-  </button>
-
-  @for (category of categories; track category) {
+<app-panel>
+  <h2 panel-title>Filtres</h2>
+  <div class="filters">
     <button
-      [class.active]="selectedCategory() === category"
-      (click)="selectCategory(category)"
+      [class.active]="selectedCategory() === 'Toutes'"
+      (click)="selectCategory('Toutes')"
     >
-      {{ category }}
+      Toutes
     </button>
-  }
-</div>
 
+    @for (category of categories; track category) {
+      <button
+        [class.active]="selectedCategory() === category"
+        (click)="selectCategory(category)"
+      >
+        {{ category }}
+      </button>
+    }
+  </div>
+</app-panel>
 <div class="product-grid">
 <!-- La grille de produits -->
   @for (product of filteredProducts(); track product.id) {

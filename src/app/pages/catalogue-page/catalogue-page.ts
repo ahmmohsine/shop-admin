@@ -1,14 +1,19 @@
 import { Component, signal } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductCard } from '../../components/product-card/product-card';
+import { Panel } from '../../components/panel/panel';
 
 @Component({
-  imports: [ProductCard],
+  imports: [ProductCard, Panel],
   selector: 'app-catalogue-page',
   styleUrl: './catalogue-page.scss',
   templateUrl: './catalogue-page.html',
 })
 export class CataloguePage {
+onAddToCart(productToAddOnCart: { product: Product; quantity: number; }) {
+  this.count.update(c=>c+productToAddOnCart.quantity);
+  productToAddOnCart.product.stock-= productToAddOnCart.quantity;
+}
 
     count = signal(0);
     PRODUCTS:  Product[] = [
@@ -99,8 +104,5 @@ categories: string[] = [
   'Accessoires'
 ];
 
-  onAddToCart(product: Product) {
-  this.count.update(c=>c+1);
-  product.stock--;
-}
+  
 }

@@ -1,0 +1,26 @@
+:host {
+  display: inline-flex;            // les 3 éléments sur une ligne
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+span {
+  min-width: 2ch;                  // largeur d'environ 2 chiffres, pour que rien ne bouge
+  text-align: center;
+  font-weight: 600;
+}
