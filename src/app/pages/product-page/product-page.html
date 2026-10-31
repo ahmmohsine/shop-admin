@@ -1,0 +1,112 @@
+<form [formRoot]="productForm">
+  <h2>Informations du produit</h2>
+
+  <div>
+    <label>Nom</label>
+   
+    <input type="text" [formField]="productForm.name" /> @if (productForm.name().touched() && productForm.name().invalid()) {
+      @for (error of productForm.name().errors(); track error.kind) {
+        <p class="error">{{ error.message }}</p>
+      }
+    }
+  </div>
+  <div>
+    <label>Image</label>
+    
+    <input type="url" [formField]="productForm.imageUrl" />@if (productForm.imageUrl().touched() && productForm.imageUrl().invalid()) {
+      @for (error of productForm.imageUrl().errors(); track error.kind) {
+        <p class="error">{{ error.message }}</p>
+      }
+    }
+  </div>
+  <div>
+    <label>Stock</label>
+  
+    <input type="number" [formField]="productForm.stock" />  @if (productForm.stock().touched() && productForm.stock().invalid()) {
+      @for (error of productForm.stock().errors(); track error.kind) {
+        <p class="error">{{ error.message }}</p>
+      }
+    }
+  </div>
+
+  <div>
+    
+    <label>Catégorie</label>
+    <select [formField]="productForm.category">
+      <option value="">Choisir une catégorie</option>
+      @for (category of categoryService.listCategories(); track $index) {
+        <option [value]="category">
+          {{ category }}
+        </option>
+      }
+    </select>@if (productForm.category().touched() && productForm.category().invalid()) {
+      @for (error of productForm.category().errors(); track error.kind) {
+        <p class="error">{{ error.message }}</p>
+      }
+    }
+  </div>
+
+  <div>
+    <label>Prix</label>
+   
+    <input type="number" [formField]="productForm.price" /> @if (productForm.price().touched() && productForm.price().invalid()) {
+      @for (error of productForm.price().errors(); track error.kind) {
+        <p class="error">{{ error.message }}</p>
+      }
+    }
+  </div>
+
+  <h2>Variantes du produit</h2>
+
+  @for (variant of productForm.variants; track $index; let i = $index) {
+    <div class="variant-row">
+      <h3>Variante {{ i + 1 }}</h3>
+
+      <div>
+        <label>Taille</label>
+       
+        <select [formField]="variant.size">
+          <option value="">Choisir une taille</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+        </select> @if (variant.size().touched() && variant.size().invalid()) {
+          @for (error of variant.size().errors(); track error.kind) {
+            <p class="error">{{ error.message }}</p>
+          }
+        }
+      </div>
+
+      <div>
+        <label>Couleur</label>
+       
+        <select [formField]="variant.color">
+          <option value="">Choisir une couleur</option>
+          <option value="Noir">Noir</option>
+          <option value="Blanc">Blanc</option>
+          <option value="Rouge">Rouge</option>
+          <option value="Bleu">Bleu</option>
+        </select> @if (variant.color().touched() && variant.color().invalid()) {
+          @for (error of variant.color().errors(); track error.kind) {
+            <p class="error">{{ error.message }}</p>
+          }
+        }
+      </div>
+
+      <button
+        type="button"
+        (click)="removeVariant(i)"
+        [disabled]="productModel().variants.length === 1"
+      >
+        Supprimer
+      </button>
+    </div>
+  }
+
+  <button type="button" (click)="addVariant()">+ Ajouter une variante</button>
+
+  <hr />
+
+  <button type="submit" [disabled]="productForm().invalid()">Enregistrer le produit</button>
+</form>

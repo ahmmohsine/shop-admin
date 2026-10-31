@@ -1,8 +1,11 @@
+import { ProductVariant } from "./product-variant";
+
 export interface Product {
   id: number;
   name: string;
-  price: number;
-  stock: number;
   category: string;
+  price: number;
   imageUrl: string;
+  stock: number;
+  variants: ProductVariant[];
 }

@@ -18,4 +18,8 @@ export const routes: Routes = [
         path:'panier',
         loadComponent:()=>import('./pages/cart-page/cart-page').then(m=>m.CartPage)
     },
+    {
+        path:'produit',
+        loadComponent:()=>import('./pages/product-page/product-page').then(m=>m.ProductPage)
+    }
 ];
