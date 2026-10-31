@@ -1,182 +1,35 @@
-import { Component, computed, linkedSignal, signal } from '@angular/core';
-import { Product } from '../../models/product';
+import { Component, inject } from '@angular/core';
 import { ProductCard } from '../../components/product-card/product-card';
 import { Panel } from '../../components/panel/panel';
 import { CartItem } from '../../models/cart-item';
 import { CurrencyPipe } from '@angular/common';
+import { CartService } from '../../services/cart-service';
+import { ProductService } from '../../services/product-service';
+import { CategoryService } from '../../services/category-service';
 
 @Component({
-  imports: [ProductCard, Panel, CurrencyPipe],
+  imports: [ProductCard, Panel],
   selector: 'app-catalogue-page',
   styleUrl: './catalogue-page.scss',
   templateUrl: './catalogue-page.html',
 })
 export class CataloguePage {
-  categories = signal<string[]>(['Informatique', 'Audio', 'Photo', 'Téléphonie', 'Accessoires']);
-
-  PRODUCTS: Product[] = [
-    {
-      id: 1,
-      name: 'Clavier mécanique',
-      price: 89.99,
-      stock: 2,
-      category: 'Informatique',
-      imageUrl:
-        'https://images.unsplash.com/photo-1756387462457-9afa97d2dbe8?w=600&h=600&fit=crop&fm=jpg&q=80',
-    },
-    {
-      id: 2,
-      name: 'Souris sans fil',
-      price: 29.99,
-      stock: 30,
-      category: 'Informatique',
-      imageUrl:
-        'https://images.unsplash.com/photo-1585816517178-2398c69d12c6?w=600&h=600&fit=crop&fm=jpg&q=80',
-    },
-    {
-      id: 3,
-      name: 'Casque audio',
-      price: 59.9,
-      stock: 0,
-      category: 'Audio',
-      imageUrl:
-        'https://images.unsplash.com/photo-1590845947676-fa2576f401b2?w=600&h=600&fit=crop&fm=jpg&q=80',
-    },
-    {
-      id: 4,
-      name: 'Écran 27 pouces',
-      price: 249.99,
-      stock: 12,
-      category: 'Informatique',
-      imageUrl:
-        'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600&h=600&fit=crop&fm=jpg&q=80',
-    },
-    {
-      id: 5,
-      name: 'Ordinateur portable',
-      price: 899.99,
-      stock: 8,
-      category: 'Informatique',
-      imageUrl:
-        'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=600&fit=crop&fm=jpg&q=80',
-    },
-    {
-      id: 6,
-      name: 'Casque gaming',
-      price: 79.99,
-      stock: 15,
-      category: 'Audio',
-      imageUrl:
-        'https://images.unsplash.com/photo-1599669454699-248893623440?w=600&h=600&fit=crop&fm=jpg&q=80',
-    },
-    {
-      id: 7,
-      name: 'Appareil photo',
-      price: 549.99,
-      stock: 5,
-      category: 'Photo',
-      imageUrl:
-        'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=600&h=600&fit=crop&fm=jpg&q=80',
-    },
-    {
-      id: 8,
-      name: 'Smartphone',
-      price: 699.99,
-      stock: 20,
-      category: 'Téléphonie',
-      imageUrl:
-        'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&h=600&fit=crop&fm=jpg&q=80',
-    },
-    {
-      id: 9,
-      name: 'Montre connectée',
-      price: 199.99,
-      stock: 18,
-      category: 'Accessoires',
-      imageUrl:
-        'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop&fm=jpg&q=80',
-    },
-    {
-      id: 10,
-      name: 'Enceinte Bluetooth',
-      price: 49.99,
-      stock: 25,
-      category: 'Audio',
-      imageUrl:
-        'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&h=600&fit=crop&fm=jpg&q=80',
-    },
-  ];
-  cartItems = signal<CartItem[]>([]);
-  count = computed(() => this.cartItems().reduce((sum, i) => sum + i.quantity, 0));
-  subTotal = computed(() =>
-    this.cartItems().reduce((sum, i) => sum + i.product.price * i.quantity, 0),
-  );
-  tva = 0.21;
-  montantTva = computed(() => this.subTotal() * this.tva);
-  totalTtc = computed(() => this.subTotal() + this.montantTva());
-
-  addToCart(newElement: CartItem) {
-    if (this.cartItems().some((i) => i.product.id === newElement.product.id)) {
-      const newtab = this.cartItems().map((i) => {
-        if (i.product.id === newElement.product.id) {
-          newElement.product.stock -= newElement.quantity;
-          return {
-            product: {
-              ...i.product,
-              stock: newElement.product.stock,
-            },
-            quantity: i.quantity + newElement.quantity,
-          };
-        } else {
-          return { ...i };
-        }
-      });
-      this.cartItems.set(newtab);
-    } else {
-      newElement.product.stock -= newElement.quantity;
-      this.cartItems.update((c) => [...c, newElement]);
-    }
-  }
-  removeFromCart(id: number) {
-    this.cartItems.set(this.cartItems().filter((i) => i.product.id !== id));
-  }
-  updateQuantity(product: Product, qty: number) {
-    if (this.cartItems().some((p) => p.product.id === product.id)) {
-      const newtab = this.cartItems().map((i) => {
-        if (product.id === i.product.id) {
-          const difference = qty - i.quantity;
-          if (qty >= 0 && i.product.stock >= difference) {
-            return {
-              product: {
-                ...i.product,
-                stock: i.product.stock - difference,
-              },
-              quantity: qty,
-            };
-          } else {
-            console.log('Quantité insuffisante !');
-            return i;
-          }
-        } else {
-          return i;
-        }
-      });
-
-      this.cartItems.set(newtab);
-    } else {
-      console.log("Le produit n'est pas dans votre panier");
-    }
-  }
-  filteredProducts = computed(() =>
-    this.selectedCategory() === 'Toutes'
-      ? this.PRODUCTS
-      : this.PRODUCTS.filter((p) => p.category === this.selectedCategory()),
-  );
-  selectedCategory = linkedSignal(() => {
-    this.categories();
-    return 'Toutes';
-  });
+  private readonly shoppingCart = inject(CartService);
+  private readonly productService = inject(ProductService);
+  private readonly categoryService = inject(CategoryService);
+  protected readonly cartItems = this.shoppingCart.shoppingCart;
+  selectedCategory = this.categoryService.selectedCategory;
+  count = this.shoppingCart.count;
+  subTotal = this.shoppingCart.subTotal;
+  montantTva = this.shoppingCart.montantTva;
+  totalTtc = this.shoppingCart.totalTtc;
+  categories = this.categoryService.listCategories;
   selectCategory(categoryName: string) {
-    this.selectedCategory.set(categoryName);
+    this.categoryService.selectCategory(categoryName);
+  }
+  filteredProducts = this.productService.filteredProducts;
+
+  addToCart(item: CartItem) {
+    this.shoppingCart.add(item);
   }
 }
