@@ -4,10 +4,6 @@ import { ProductCard } from '../../components/product-card/product-card';
 import { Panel } from '../../components/panel/panel';
 import { CartItem } from '../../models/cart-item';
 import { CurrencyPipe } from '@angular/common';
-import { registerLocaleData } from '@angular/common';
-import localeFrBE from '@angular/common/locales/fr-BE';
-
-registerLocaleData(localeFrBE);
 
 @Component({
   imports: [ProductCard, Panel, CurrencyPipe],
@@ -123,11 +119,16 @@ export class CataloguePage {
     if (this.cartItems().some((i) => i.product.id === newElement.product.id)) {
       const newtab = this.cartItems().map((i) => {
         if (i.product.id === newElement.product.id) {
-          i.quantity += newElement.quantity;
-          i.product.stock -= newElement.quantity;
-          return i;
+          newElement.product.stock -= newElement.quantity;
+          return {
+            product: {
+              ...i.product,
+              stock: newElement.product.stock,
+            },
+            quantity: i.quantity + newElement.quantity,
+          };
         } else {
-          return i;
+          return { ...i };
         }
       });
       this.cartItems.set(newtab);
@@ -136,7 +137,36 @@ export class CataloguePage {
       this.cartItems.update((c) => [...c, newElement]);
     }
   }
+  removeFromCart(id: number) {
+    this.cartItems.set(this.cartItems().filter((i) => i.product.id !== id));
+  }
+  updateQuantity(product: Product, qty: number) {
+    if (this.cartItems().some((p) => p.product.id === product.id)) {
+      const newtab = this.cartItems().map((i) => {
+        if (product.id === i.product.id) {
+          const difference = qty - i.quantity;
+          if (qty >= 0 && i.product.stock >= difference) {
+            return {
+              product: {
+                ...i.product,
+                stock: i.product.stock - difference,
+              },
+              quantity: qty,
+            };
+          } else {
+            console.log('Quantité insuffisante !');
+            return i;
+          }
+        } else {
+          return i;
+        }
+      });
 
+      this.cartItems.set(newtab);
+    } else {
+      console.log("Le produit n'est pas dans votre panier");
+    }
+  }
   filteredProducts = computed(() =>
     this.selectedCategory() === 'Toutes'
       ? this.PRODUCTS

@@ -1,14 +1,8 @@
 <!-- Le compteur du panier -->
 <p class="cart-count">Articles dans le panier : {{ count() }}</p>
-<p class="cart-count">
-  Subtotal : {{ subTotal() | currency: 'EUR' : 'symbol' : '1.2-2' : 'fr-BE' }}
-</p>
-<p class="cart-count">
-  Articles dans le panier : {{ montantTva() | currency: 'EUR' : 'symbol' : '1.2-2' : 'fr-BE' }}
-</p>
-<p class="cart-count">
-  Articles dans le panier : {{ totalTtc() | currency: 'EUR' : 'symbol' : '1.2-2' : 'fr-BE' }}
-</p>
+<p class="cart-count">Sous-total : {{ subTotal() | currency: 'EUR' }}</p>
+<p class="cart-count">TVA (21 %) : {{ montantTva() | currency: 'EUR' }}</p>
+<p class="cart-count">Total TTC : {{ totalTtc() | currency: 'EUR' }}</p>
 
 <app-panel>
   <h2 panel-title>Filtres</h2>
