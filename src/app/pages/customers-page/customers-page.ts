@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 
 @Component({
   imports: [],
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './customers-page.scss',
   templateUrl: './customers-page.html',
 })
-export class CustomersPage {}
+export class CustomersPage {
+   
+}

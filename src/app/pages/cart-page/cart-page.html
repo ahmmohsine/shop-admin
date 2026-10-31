@@ -1,1 +1,23 @@
-<p>cart-page works!</p>
+<app-panel>
+  <h2 panel-title>Mon panier</h2>
+
+  @for (item of cart.shoppingCart(); track item.product.id) {
+    <div class="cart-line">
+      <span class="name">{{ item.product.name }}</span>
+      <span>× {{ item.quantity }}</span>
+      <span>{{ item.product.price * item.quantity | currency: 'EUR' }}</span>
+      <button (click)="cart.remove(item.product.id)">Retirer</button>
+    </div>
+  } @empty {
+    <p>Votre panier est vide.</p>
+  }
+
+  @if (cart.count() > 0) {
+    <div class="cart-totals">
+      <p>Sous-total : {{ cart.subTotal() | currency: 'EUR' }}</p>
+      <p>TVA (21 %) : {{ cart.montantTva() | currency: 'EUR' }}</p>
+      <p><strong>Total TTC : {{ cart.totalTtc() | currency: 'EUR' }}</strong></p>
+    </div>
+    <button (click)="cart.clear()">Vider le panier</button>
+  }
+</app-panel>
