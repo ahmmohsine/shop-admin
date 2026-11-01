@@ -1,34 +1,36 @@
 :root {
   // Couleurs Dasher
-  --color-primary: #00a76f;         // vert : boutons, prix, liens actifs
-  --color-primary-dark: #007867;    // vert foncé : survol
-  --color-primary-subtle: #e6f6f1;  // vert très pâle : fond du lien actif, des filtres actifs
-  --color-bg: #f9fafb;              // fond de la page
-  --color-surface: #ffffff;         // fond des cartes
-  --color-text: #1c252e;            // texte principal
-  --color-muted: #637381;           // texte secondaire
-  --color-border: #dfe3e8;          // bordures
-  --color-warning: #ffab00;         // orange : stock faible
-  --color-danger: #ff5630;          // rouge : rupture, erreurs
-  --color-success: #22c55e;         // vert vif : « en stock »
+  --color-primary: #00a76f; // vert : boutons, prix, liens actifs
+  --color-primary-dark: #007867; // vert foncé : survol
+  --color-primary-subtle: #e6f6f1; // vert très pâle : fond du lien actif, des filtres actifs
+  --color-bg: #f9fafb; // fond de la page
+  --color-surface: #ffffff; // fond des cartes
+  --color-text: #1c252e; // texte principal
+  --color-muted: #637381; // texte secondaire
+  --color-border: #dfe3e8; // bordures
+  --color-warning: #ffab00; // orange : stock faible
+  --color-danger: #ff5630; // rouge : rupture, erreurs
+  --color-success: #22c55e; // vert vif : « en stock »
 
   // Formes Dasher
-  --radius: 8px;                    // boutons, champs
-  --radius-lg: 16px;                // cartes, panneaux
-  --shadow: 0 12px 24px -4px rgba(145, 158, 171, 0.16);   // ombre large et douce
-  --shadow-hover: 0 5px 12px rgba(0, 0, 0, 0.12);         // ombre quand on survole une carte
+  --radius: 8px; // boutons, champs
+  --radius-lg: 16px; // cartes, panneaux
+  --shadow: 0 12px 24px -4px rgba(145, 158, 171, 0.16); // ombre large et douce
+  --shadow-hover: 0 5px 12px rgba(0, 0, 0, 0.12); // ombre quand on survole une carte
 }
 
 body {
   margin: 0;
   font-family: 'Public Sans', system-ui, sans-serif;
-  font-size: 0.875rem;              // 14 px, comme Dasher
+  font-size: 0.875rem; // 14 px, comme Dasher
   background-color: var(--color-bg);
   color: var(--color-text);
 }
 
-h1, h2, h3 {
-  font-weight: 600;                 // titres un peu moins gras que par défaut
+h1,
+h2,
+h3 {
+  font-weight: 600; // titres un peu moins gras que par défaut
 }
 // ===== Boutons réutilisables (détail, 404…) =====
 .btn {
@@ -43,7 +45,7 @@ h1, h2, h3 {
   color: var(--color-text);
   font: inherit;
   font-weight: 700;
-  text-decoration: none;            
+  text-decoration: none;
 
   &:hover:not(:disabled) {
     background-color: var(--color-bg);
@@ -109,16 +111,18 @@ form {
     background-color: var(--color-surface);
     color: var(--color-text);
     font: inherit;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
 
     &:hover {
-      border-color: #c4cdd5;          // un gris un peu plus foncé au survol
+      border-color: #c4cdd5; // un gris un peu plus foncé au survol
     }
 
     &:focus {
       outline: none;
       border-color: var(--color-primary);
-      box-shadow: 0 0 0 3px rgba(0, 167, 111, 0.16);   // halo vert autour du champ actif
+      box-shadow: 0 0 0 3px rgba(0, 167, 111, 0.16); // halo vert autour du champ actif
     }
   }
 
@@ -140,7 +144,7 @@ form {
     border-radius: var(--radius);
 
     h3 {
-      grid-column: 1 / -1;            // toute la largeur
+      grid-column: 1 / -1; // toute la largeur
       margin: 0;
       font-size: 0.875rem;
     }
@@ -150,7 +154,7 @@ form {
     }
 
     @media (max-width: 600px) {
-      grid-template-columns: 1fr;     
+      grid-template-columns: 1fr;
     }
   }
 
@@ -197,9 +201,47 @@ form {
     gap: 0.75rem;
     margin-top: 1.5rem;
   }
-}
-button,
-input,
-select {
-  font: inherit;
+  // Liste déroulante personnalisable (Chrome / Edge récents)
+  select,
+  select::picker(select) {
+    appearance: base-select; // « je veux styliser ce select moi-même »
+  }
+
+  // La liste qui s'ouvre
+  select::picker(select) {
+    padding: 0.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow);
+  }
+
+  // Chaque option
+  option {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+
+    // Au survol ou au clavier : vert pâle au lieu du bleu
+    &:hover,
+    &:focus {
+      background-color: var(--color-primary-subtle);
+      color: var(--color-primary-dark);
+    }
+
+    // L'option actuellement choisie
+    &:checked {
+      font-weight: 600;
+      color: var(--color-primary-dark);
+    }
+
+    // Le petit ✓ que Chrome ajoute devant l'option choisie
+    &::checkmark {
+      color: var(--color-primary);
+    }
+  }
+  button,
+  input,
+  select {
+    font: inherit;
+  }
 }

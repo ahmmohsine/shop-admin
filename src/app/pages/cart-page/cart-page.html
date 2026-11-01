@@ -22,5 +22,6 @@
       <p><strong>Total TTC : {{ cart.totalTtc() | currency: 'EUR' }}</strong></p>
     </div>
     <button type="button" class="btn" (click)="cart.clear()">Vider le panier</button>
+    <button type="button" class="btn btn-primary btn-checkout" (click)="cart.checkout()"> Valider la commande </button>
   }
 </app-panel>
