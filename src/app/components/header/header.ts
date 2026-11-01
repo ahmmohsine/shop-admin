@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart-service';
+import { Auth } from '../../services/auth';
 
 @Component({
   imports: [RouterLink],
@@ -11,4 +12,5 @@ import { CartService } from '../../services/cart-service';
 })
 export class Header {
   protected cart = inject(CartService);
+  protected auth = inject(Auth);
 }

@@ -3,7 +3,6 @@
       [appLowStock]="product().stock"
       [class.out-of-stock]="product().stock === 0"
     >
-      <!-- L'image, chargée seulement quand la carte devient visible -->
       @defer (on viewport) {
         <img [src]="product().imageUrl" [alt]="product().name" />
       } @placeholder {
@@ -34,4 +33,5 @@
       >
         Ajouter au panier
       </button>
+     <a  [routerLink]="['/catalogue', product().id]">Détails</a>
     </div>

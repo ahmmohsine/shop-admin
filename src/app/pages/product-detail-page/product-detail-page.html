@@ -1,0 +1,71 @@
+@if (product();as p) {
+
+  <div class="product-detail">
+<div class="product-image">
+  <img [src]="p.imageUrl" [alt]="p.name">
+</div>
+
+<div class="product-info">
+
+  <span class="category">{{ p.category }}</span>
+
+  <h1>{{ p.name }}</h1>
+
+  <p class="price">{{ p.price | currency:'EUR' }}</p>
+
+  <div class="stock">
+    @if (p.stock) {
+      <span class="available">
+        En stock : {{ p.stock }} unités
+      </span>
+    } @else {
+      <span class="unavailable">
+        Rupture de stock
+      </span>
+    }
+  </div>
+
+  @if (p.variants.length > 0) {
+    <div class="variants">
+
+      <h2>Variantes disponibles</h2>
+
+      <div class="variant-list">
+        @for (variant of p.variants; track $index) {
+
+          <div class="variant-card">
+
+            <div>
+              <strong>Taille :</strong>
+              {{ variant.size }}
+            </div>
+
+            <div>
+              <strong>Couleur :</strong>
+              {{ variant.color }}
+            </div>
+
+          </div>
+
+        }
+      </div>
+
+    </div>
+  }
+
+  <button type="button" (click)="goBack()">
+    Retour au catalogue
+  </button>
+
+</div>
+<a [routerLink]="['/catalogue',p.id,'edit']">Modifier</a>
+  </div>
+} @else {
+  <div class="not-found">
+    <h2>Produit introuvable</h2>
+    <p>Le produit demandé n'existe pas.</p>
+    <button type="button" (click)="goBack()">
+      Retour au catalogue
+    </button>
+  </div>
+}
