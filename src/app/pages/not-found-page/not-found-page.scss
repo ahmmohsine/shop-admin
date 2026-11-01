@@ -1,0 +1,35 @@
+// Le composant prend toute la hauteur disponible et centre son contenu
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 64px - 3rem);   // l'écran, moins le header et le padding de .content
+}
+
+.not-found {
+  max-width: 420px;
+  padding: 3rem 2rem;
+  text-align: center;
+  background-color: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+
+  h1 {
+    margin: 0;
+    font-size: 6rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--color-primary);
+  }
+
+  h2 {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+  }
+
+  p {
+    margin: 0 0 1.5rem;
+    color: var(--color-muted);
+  }
+}

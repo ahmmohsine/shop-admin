@@ -1,17 +1,80 @@
+// Une ligne : miniature | nom | quantité | total | bouton
 .cart-line {
   display: grid;
-  grid-template-columns: 1fr auto auto auto;  
+  grid-template-columns: 48px 1fr auto auto auto;
   gap: 1rem;
   align-items: center;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
+  padding: 0.75rem 0;
+  border-bottom: 1px dashed var(--color-border);   // pointillés Dasher
+
+  .thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
 
   .name {
     font-weight: 600;
   }
+
+  .qty {
+    color: var(--color-muted);
+  }
+
+  .line-total {
+    min-width: 90px;                // les prix restent alignés en colonne
+    text-align: right;
+    font-weight: 600;
+  }
 }
 
+// Bouton « Retirer » : rouge doux, comme les badges de Dasher
+.remove {
+  padding: 0.35rem 0.7rem;
+  border: none;
+  border-radius: var(--radius);
+  background-color: rgba(255, 86, 48, 0.12);
+  color: #b71d18;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(255, 86, 48, 0.24);
+  }
+}
+
+// Le récapitulatif : un encadré à droite
 .cart-totals {
-  margin: 1rem 0;
-  text-align: right;
+  max-width: 320px;
+  margin: 1.5rem 0 1.5rem auto;     // "auto" à gauche = poussé à droite
+  padding: 1rem 1.25rem;
+  background-color: var(--color-bg);
+  border-radius: var(--radius);
+
+  p {
+    margin: 0.4rem 0;
+    text-align: right;
+    color: var(--color-muted);
+  }
+
+  // La dernière ligne (Total TTC) : séparée, plus grande, en vert
+  p:last-child {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--color-border);
+    font-size: 1.1rem;
+    color: var(--color-text);
+
+    strong {
+      color: var(--color-primary);
+    }
+  }
+  .empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-muted);
+}
 }

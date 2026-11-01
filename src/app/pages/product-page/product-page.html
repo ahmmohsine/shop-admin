@@ -1,7 +1,8 @@
+<h1 class="page-title">Nouveau produit</h1>
 <form [formRoot]="productForm">
   <h2>Informations du produit</h2>
 
-  <div>
+  <div class="form-group">
     <label>Nom</label>
    
     <input type="text" [formField]="productForm.name" /> @if (productForm.name().touched() && productForm.name().invalid()) {
@@ -10,7 +11,7 @@
       }
     }
   </div>
-  <div>
+  <div class="form-group">
     <label>Image</label>
     
     <input type="url" [formField]="productForm.imageUrl" />@if (productForm.imageUrl().touched() && productForm.imageUrl().invalid()) {
@@ -19,7 +20,7 @@
       }
     }
   </div>
-  <div>
+  <div class="form-group">
     <label>Stock</label>
   
     <input type="number" [formField]="productForm.stock" />  @if (productForm.stock().touched() && productForm.stock().invalid()) {
@@ -29,7 +30,7 @@
     }
   </div>
 
-  <div>
+  <div class="form-group">
     
     <label>Catégorie</label>
     <select [formField]="productForm.category">
@@ -46,7 +47,7 @@
     }
   </div>
 
-  <div>
+  <div class="form-group">
     <label>Prix</label>
    
     <input type="number" [formField]="productForm.price" /> @if (productForm.price().touched() && productForm.price().invalid()) {
@@ -59,10 +60,10 @@
   <h2>Variantes du produit</h2>
 
   @for (variant of productForm.variants; track $index; let i = $index) {
-    <div class="variant-row">
+    <div class="variant-row form-group">
       <h3>Variante {{ i + 1 }}</h3>
 
-      <div>
+      <div class="form-group">
         <label>Taille</label>
        
         <select [formField]="variant.size">
@@ -78,7 +79,7 @@
         }
       </div>
 
-      <div>
+      <div form-group>
         <label>Couleur</label>
        
         <select [formField]="variant.color">
@@ -108,5 +109,5 @@
 
   <hr />
 
-  <button type="submit" [disabled]="productForm().invalid()">Enregistrer le produit</button>
+  <button  class="form-actions" type="submit" [disabled]="productForm().invalid()">Enregistrer le produit</button>
 </form>

@@ -53,18 +53,18 @@
     </div>
   }
 
-  <button type="button" (click)="goBack()">
-    Retour au catalogue
-  </button>
+  <div class="actions">
+  <button type="button" class="btn" (click)="goBack()">Retour au catalogue</button>
+  <a class="btn btn-primary" [routerLink]="['/catalogue', p.id, 'edit']">Modifier</a>
+</div>
 
 </div>
-<a [routerLink]="['/catalogue',p.id,'edit']">Modifier</a>
   </div>
 } @else {
   <div class="not-found">
     <h2>Produit introuvable</h2>
     <p>Le produit demandé n'existe pas.</p>
-    <button type="button" (click)="goBack()">
+    <button class="btn" type="button" (click)="goBack()">
       Retour au catalogue
     </button>
   </div>

@@ -3,21 +3,24 @@
 
   @for (item of cart.shoppingCart(); track item.product.id) {
     <div class="cart-line">
-      <span class="name">{{ item.product.name }}</span>
-      <span>× {{ item.quantity }}</span>
-      <span>{{ item.product.price * item.quantity | currency: 'EUR' }}</span>
-      <button (click)="cart.remove(item.product.id)">Retirer</button>
-    </div>
+  <img class="thumb" [src]="item.product.imageUrl" [alt]="item.product.name" />
+  <span class="name">{{ item.product.name }}</span>
+  <span class="qty">× {{ item.quantity }}</span>
+  <span class="line-total">{{ item.product.price * item.quantity | currency: 'EUR' }}</span>
+  <button type="button" class="remove" (click)="cart.remove(item.product.id)">Retirer</button>
+</div>
   } @empty {
+  <div class="empty">
     <p>Votre panier est vide.</p>
-  }
-
+    <a class="btn btn-primary" routerLink="/catalogue">Voir le catalogue</a>
+  </div>
+}
   @if (cart.count() > 0) {
     <div class="cart-totals">
       <p>Sous-total : {{ cart.subTotal() | currency: 'EUR' }}</p>
       <p>TVA (21 %) : {{ cart.montantTva() | currency: 'EUR' }}</p>
       <p><strong>Total TTC : {{ cart.totalTtc() | currency: 'EUR' }}</strong></p>
     </div>
-    <button (click)="cart.clear()">Vider le panier</button>
+    <button type="button" class="btn" (click)="cart.clear()">Vider le panier</button>
   }
 </app-panel>
