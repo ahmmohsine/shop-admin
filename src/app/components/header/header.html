@@ -1,5 +1,5 @@
 <h1>Shop Admin</h1>
-<a class="cart-badge" routerLink="/panier">🛒 {{ cart.count() }}</a>
-<button type="button" (click)="auth.toggle()">
-  Admin : {{ auth.isAdmin() ? 'oui' : 'non' }}
-</button>
+<div class="header-actions">
+  <a class="cart-badge" routerLink="/panier">🛒 {{ cart.count() }}</a>
+  <button type="button" (click)="auth.toggle()">Admin : {{ auth.isAdmin() ? 'oui' : 'non' }}</button>
+</div>

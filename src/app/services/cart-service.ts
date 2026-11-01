@@ -1,4 +1,4 @@
-import { Service, signal, computed, inject } from '@angular/core';
+import { Service, signal, computed, inject, effect } from '@angular/core';
 import { CartItem } from '../models/cart-item';
 import { Product } from '../models/product';
 import { ProductService } from './product-service';
@@ -6,7 +6,7 @@ import { ProductService } from './product-service';
 @Service()
 export class CartService {
   private productService = inject(ProductService);
-  private readonly cartItems = signal<CartItem[]>([]);
+  private readonly cartItems = signal<CartItem[]>(this.load());
   shoppingCart = this.cartItems.asReadonly();
   count = computed(() => this.cartItems().reduce((sum, i) => sum + i.quantity, 0));
   subTotal = computed(() =>
@@ -16,11 +16,23 @@ export class CartService {
   montantTva = computed(() => this.subTotal() * this.tva);
   totalTtc = computed(() => this.subTotal() + this.montantTva());
 
+  constructor() {
+    effect(() => {
+      localStorage.setItem('cart', JSON.stringify(this.cartItems()));
+    });
+  }
   remove(id: number) {
     const item = this.cartItems().find((i) => i.product.id === id);
     if (item != undefined) {
       this.productService.changeStock(item.product.id, item.quantity);
       this.cartItems.set(this.cartItems().filter((i) => i.product.id !== id));
+    }
+  }
+  private load(): CartItem[] {
+    try {
+      return JSON.parse(localStorage.getItem('cart') ?? '[]');
+    } catch {
+      return [];
     }
   }
   add(newElement: CartItem) {
@@ -62,6 +74,9 @@ export class CartService {
     this.cartItems().forEach((item) => {
       this.productService.changeStock(item.product.id, item.quantity);
     });
+    this.cartItems.set([]);
+  }
+  checkout(){
     this.cartItems.set([]);
   }
 }
