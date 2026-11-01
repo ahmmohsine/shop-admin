@@ -1,0 +1,134 @@
+@if (product) {
+  <div class="product-edit">
+    <h1>Modifier le produit</h1>
+
+    <form [formRoot]="productForm">
+      <div class="form-group">
+        <label for="name">Nom du produit</label>
+
+        <input id="name" type="text" [formField]="productForm.name" placeholder="Nom du produit" />
+
+        @if (productForm.name().touched() && productForm.name().invalid()) {
+          @for (error of productForm.name().errors(); track error.kind) {
+            <small class="error">{{ error.message }}</small>
+          }
+        }
+      </div>
+
+      <!-- Catégorie -->
+      <div class="form-group">
+        <label for="category">Catégorie</label>
+
+        <select id="category" [formField]="productForm.category">
+          <option value="" disabled>Choisir une catégorie</option>
+
+          @for (category of categoryService.listCategories(); track $index) {
+            <option [value]="category">
+              {{ category }}
+            </option>
+          }
+        </select>
+
+        @if (productForm.category().touched() && productForm.category().invalid()) {
+          @for (error of productForm.category().errors(); track error.kind) {
+            <small class="error">{{ error.message }}</small>
+          }
+        }
+      </div>
+      <!-- Prix -->
+      <div class="form-group">
+        <label for="price">Prix (€)</label>
+
+        <input id="price" type="number" step="0.01" [formField]="productForm.price" />
+
+        @if (productForm.price().touched() && productForm.price().invalid()) {
+          @for (error of productForm.price().errors(); track error.kind) {
+            <small class="error">{{ error.message }}</small>
+          }
+        }
+      </div>
+
+      <!-- Stock -->
+      <div class="form-group">
+        <label for="stock">Stock</label>
+
+        <input id="stock" type="number" [formField]="productForm.stock" />
+
+        @if (productForm.stock().touched() && productForm.stock().invalid()) {
+          @for (error of productForm.stock().errors(); track error) {
+            <small class="error">{{ error.message }}</small>
+          }
+        }
+      </div>
+
+      <!-- Image -->
+      <div class="form-group">
+        <label for="imageUrl">URL de l'image</label>
+
+        <input id="imageUrl" type="text" [formField]="productForm.imageUrl" />
+      </div>
+
+      <!-- Variantes -->
+      <div class="variants-section">
+        <h2>Variantes du produit</h2>
+
+        @for (variant of productForm.variants; track $index; let i = $index) {
+          <div class="variant-row">
+            <h3>Variante {{ i + 1 }}</h3>
+
+            <!-- Taille -->
+            <div class="form-group">
+              <label>Taille</label>
+
+              <input type="text" [formField]="variant.size" placeholder="Ex : M, L, XL" />
+
+              @if (variant.size().touched() && variant.size().invalid()) {
+                @for (error of variant.size().errors(); track error.kind) {
+                  <small class="error">{{ error.message }}</small>
+                }
+              }
+            </div>
+
+            <!-- Couleur -->
+            <div class="form-group">
+              <label>Couleur</label>
+
+              <input type="text" [formField]="variant.color" placeholder="Ex : Noir, Blanc" />
+
+              @if (variant.color().touched() && variant.color().invalid()) {
+                @for (error of variant.color().errors(); track error.kind) {
+                  <small class="error">{{ error.message }}</small>
+                }
+              }
+            </div>
+
+            <button
+              type="button"
+              (click)="removeVariant(i)"
+              [disabled]="productModel().variants.length === 1"
+            >
+              Supprimer
+            </button>
+          </div>
+        }
+
+        <button type="button" (click)="addVariant()">+ Ajouter une variante</button>
+      </div>
+
+      <!-- Boutons -->
+      <div class="form-actions">
+        <button type="button" (click)="goBack()">Annuler</button>
+
+        <button type="submit" [disabled]="productForm().invalid() || productForm().submitting()">
+          Enregistrer les modifications
+        </button>
+      </div>
+    </form>
+  </div>
+  
+} @else {
+  <div class="not-found">
+    <h2>Produit introuvable</h2>
+    <button type="button" (click)="goBack()">Retour au catalogue</button>
+  </div>
+}

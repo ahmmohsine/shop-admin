@@ -160,4 +160,13 @@ private readonly products = signal<Product[]>([
     return Math.max(...this.products().map(p=>p.id))+1;
      
   }
+  update(updatedProduct: Product) {
+  this.products.update(products =>
+    products.map(p =>
+      p.id === updatedProduct.id
+        ? updatedProduct
+        : p
+    )
+  );
+}
 }

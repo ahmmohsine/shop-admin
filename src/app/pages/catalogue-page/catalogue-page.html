@@ -12,7 +12,6 @@
   </div>
 </app-panel>
 <div class="product-grid">
-  <!-- La grille de produits -->
   @for (product of filteredProducts(); track product.id) {
     <app-product-card [product]="product" (addToCart)="addToCart($event)" />
   } @empty {
